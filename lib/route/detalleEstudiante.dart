@@ -38,18 +38,54 @@ class _DetallEstudiantePageState extends State<DetallEstudiantePage> {
                 if (snapshot.hasData) {
                   EstudianteHp estHP = snapshot.data;
                   print(estHP);
-                  return ListTile(
-                    subtitle: Text(estHP.yearOfBirth.toString()),
-                    title: Text(estHP.name),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (c) {
-                        return DetallEstudiantePage(estHP.name);
-                      }));
-                    },
+                  return Container(
+                    child: Column(
+                      children: [
+                        Container(
+                            child: Image.network(
+                          estHP.image,
+                          height: 200,
+                        )),
+                        Column(
+                          children: [
+                            Text(
+                              estHP.name,
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Ojos: ${estHP.eyeColour}"),
+                                Text(
+                                    "F. Nacimiento: ${estHP.yearOfBirth.toString()}")
+                              ],
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                                                        Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Casa: ${estHP.house}"),
+                                Text(
+                                    "Actor: ${estHP.actor}")
+                              ],
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   );
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error);
                 }
+                return CircularProgressIndicator();
               },
             ),
           ]),

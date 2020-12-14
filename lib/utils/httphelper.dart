@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:casashp/models/estudiantesHP.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -44,9 +46,10 @@ class HttpHelper {
 
   Future<EstudianteHp> detalleEstudiante(String nombreEstu) async {
     var response = await http.get(baseUrl);
+    print(response);
 
     if (response.statusCode == 200) {
-      EstudianteHp es;
+      EstudianteHp estu;
       var jsonReponse = convert.jsonDecode(response.body);
 
       List estudiantes = jsonReponse.map((e) => e).toList();
@@ -57,18 +60,13 @@ class HttpHelper {
       for (int i = 0; i < estudiantes.length; i++) {
         if (estudiantes[i]["name"] == nombreEstu) {
           print(estudiantes[i]);
-
-        //  EstudianteHp recuEs1 = convert.jsonDecode(response.body)[estudiantes[i]];          
-         //EstudianteHp recuE2 = EstudianteHp.fromJson(jsonReponse);
-           List<EstudianteHp> estuRecu=[];
-          estuRecu=estudiantes[i];
-
-          es= estuRecu[i];// aquí me recupera el string , pero necesito transformalo a un tipo EstuaidanteHp para que sea identico..
-
-          print(es);
+          
+            EstudianteHp stuRe= new EstudianteHp.fromJson(estudiantes[i]);
+            return stuRe;
         }
       }
-      return es;
+      
+      
     } else {
       print(response.statusCode);
     }
